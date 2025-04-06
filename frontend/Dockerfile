@@ -1,11 +1,22 @@
-FROM node:18 AS builder
+# Build stage
+FROM node:18 as build
+
 WORKDIR /app
-COPY . .
+
+COPY package*.json ./
 RUN npm install
+
+COPY . .
 RUN npm run build
-FROM node:18
-WORKDIR /app
+
+# Production stage
+FROM node:18-alpine as production
+
 RUN npm install -g serve
-COPY --from=builder /app/build ./build
+WORKDIR /app
+
+COPY --from=build /app/build ./build
+
 EXPOSE 8080
+
 CMD ["serve", "-s", "build", "-l", "8080"]
