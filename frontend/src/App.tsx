@@ -26,8 +26,10 @@ function App() {
 
     try {
       setError('');
+      const apiBaseUrl = process.env.REACT_APP_API_URL || "http://localhost:8080";
+
       const response = await axios.get(
-        `http://localhost:8080/romannumeral?query=${num}`
+      `${apiBaseUrl}/romannumeral?query=${num}`
       );
       setResult(response.data.output);
     } catch (err: any) {
