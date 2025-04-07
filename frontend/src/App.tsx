@@ -3,11 +3,13 @@ import {
   TextField,
   Button,
   View,
+  Heading,
   Text,
   Provider,
   defaultTheme,
   darkTheme,
   Switch,
+  Flex
 } from '@adobe/react-spectrum';
 import axios from 'axios';
 
@@ -41,32 +43,49 @@ function App() {
 
   return (
     <Provider theme={isDarkMode ? darkTheme : defaultTheme} colorScheme={isDarkMode ? 'dark' : 'light'}>
-      <View padding="size-200" position="relative" minHeight="100vh">
-        <TextField
-          label="Enter a number (1-3999)"
-          type="text"
-          inputMode="numeric"
-          value={number}
-          onChange={setNumber}
-        />
-        <Button variant="cta" onPress={handleConvert} marginTop="size-200">
-          Convert to roman numeral
-        </Button>
+      <Flex height="100vh" alignItems="center" justifyContent="center" position="relative">
+        <View
+          backgroundColor="gray-50"
+          borderRadius="medium"
+          padding="size-400"
+          width="size-4600"
+        >
+          <Heading level={1}>Roman numeral converter</Heading>
 
-        {result && <Text marginTop="size-200">Roman numeral: {result}</Text>}
-        {error && (
-          <Text marginTop="size-200" UNSAFE_className="error-text">
-            Error: {error}
-          </Text>
-        )}
+          <TextField
+            label="Enter a number"
+            type="text"
+            inputMode="numeric"
+            value={number}
+            onChange={setNumber}
+            marginTop="size-200"
+          />
 
-        {/* Toggle switch at bottom-right */}
+          <Button variant="cta" onPress={handleConvert} marginTop="size-200">
+            Convert to roman numeral
+          </Button>
+
+          <View marginTop="size-200">
+            {result && (
+              <Text>
+              <strong>Roman numeral:</strong> {result}
+              </Text>
+            )}
+            {error && (
+              <Text marginTop="size-100" UNSAFE_className="error-text">
+                Error: {error}
+              </Text>
+            )}
+          </View>
+        </View>
+
+        {/* Dark Mode Toggle - bottom right */}
         <View position="absolute" bottom="size-200" right="size-200">
           <Switch isSelected={isDarkMode} onChange={setIsDarkMode}>
             {isDarkMode ? 'Dark' : 'Light'} Mode
           </Switch>
         </View>
-      </View>
+      </Flex>
     </Provider>
   );
 }
